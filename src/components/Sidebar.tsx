@@ -13,9 +13,53 @@ import {
 
 interface SidebarProps {
   className?: string;
+  activeItem?: string;
+  onItemClick?: (item: string, section: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  className = "",
+  activeItem = "Tasks",
+  onItemClick,
+}) => {
+  const handleItemClick = (item: string, section: string) => {
+    if (onItemClick) {
+      onItemClick(item, section);
+    }
+  };
+
+  const menuItems = [
+    { name: "Dashboard", icon: LayoutDashboard, section: "Menu" },
+    { name: "Inbox", icon: Inbox, section: "Menu" },
+    { name: "Calendar", icon: Calendar, section: "Menu" },
+  ];
+
+  const teamSpaceItems = [
+    { name: "Tasks", icon: CheckSquare, section: "Team spaces" },
+    { name: "Docs", icon: FileText, section: "Team spaces" },
+    { name: "Meeting", icon: Users, section: "Team spaces" },
+  ];
+
+  const otherItems = [
+    { name: "Settings", icon: Settings, section: "Other" },
+    { name: "Support", icon: HelpCircle, section: "Other" },
+  ];
+
+  const renderNavItem = (item: any, isActive: boolean) => (
+    <button
+      key={item.name}
+      onClick={() => handleItemClick(item.name, item.section)}
+      className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium w-full text-left transition-all duration-200 ${
+        isActive
+          ? "bg-white shadow-md border border-[#dee0e2] text-black"
+          : "text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2]"
+      }`}
+    >
+      <item.icon className="w-5 h-5" />
+      <span>{item.name}</span>
+    </button>
+  );
+
   return (
     <div
       className={`w-70 bg-[#f6f8fa] text-black h-screen flex flex-col ${className}`}
@@ -44,31 +88,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
             Menu
           </div>
 
-          {/* Main Navigation Items */}
           <nav className="space-y-1">
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <LayoutDashboard className="w-5 h-5" />
-              <span>Dashboard</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <Inbox className="w-5 h-5" />
-              <span>Inbox</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <Calendar className="w-5 h-5" />
-              <span>Calendar</span>
-            </a>
+            {menuItems.map((item) =>
+              renderNavItem(item, activeItem === item.name)
+            )}
           </nav>
         </div>
 
@@ -81,28 +104,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
           </div>
 
           <nav className="space-y-1">
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <CheckSquare className="w-5 h-5" />
-              <span>Tasks</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <FileText className="w-5 h-5" />
-              <span>Docs</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <Users className="w-5 h-5" />
-              <span>Meeting</span>
-            </a>
+            {teamSpaceItems.map((item) =>
+              renderNavItem(item, activeItem === item.name)
+            )}
           </nav>
         </div>
 
@@ -113,21 +117,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
           </div>
 
           <nav className="space-y-1">
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <Settings className="w-5 h-5" />
-              <span>Settings</span>
-            </a>
-
-            <a
-              href="#"
-              className="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-white hover:shadow-md hover:border hover:border-[#dee0e2] transition-all duration-200"
-            >
-              <HelpCircle className="w-5 h-5" />
-              <span>Support</span>
-            </a>
+            {otherItems.map((item) =>
+              renderNavItem(item, activeItem === item.name)
+            )}
           </nav>
         </div>
       </div>
