@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
         </div>
 
         {/* Other Section */}
-        <div className="p-4 border-b border-[#9e9fa3] mx-4">
+        <div className="p-4 mx-4">
           <div className="text-[#7f8386] text-xs font-medium mb-3 uppercase tracking-wider">
             Other
           </div>
